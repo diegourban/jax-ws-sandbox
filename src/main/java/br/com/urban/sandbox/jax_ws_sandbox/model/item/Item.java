@@ -1,6 +1,8 @@
 package br.com.urban.sandbox.jax_ws_sandbox.model.item;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Item {
 
 	private String codigo;
