@@ -10,39 +10,64 @@ import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
+import br.com.urban.sandbox.jax_ws_sandbox.exception.AutorizacaoException;
 import br.com.urban.sandbox.jax_ws_sandbox.model.item.Filtro;
 import br.com.urban.sandbox.jax_ws_sandbox.model.item.Filtros;
 import br.com.urban.sandbox.jax_ws_sandbox.model.item.Item;
 import br.com.urban.sandbox.jax_ws_sandbox.model.item.ItemDao;
+import br.com.urban.sandbox.jax_ws_sandbox.model.item.ItemValidador;
+import br.com.urban.sandbox.jax_ws_sandbox.model.usuario.TokenDao;
+import br.com.urban.sandbox.jax_ws_sandbox.model.usuario.TokenUsuario;
 
 @WebService
 public class EstoqueWS {
 
 	private ItemDao dao = new ItemDao();
 
-	@WebMethod(operationName = "todosOsItens")
-	@RequestWrapper(localName="listaItens")
-	@ResponseWrapper(localName="itens")
+	@WebMethod(operationName = "TodosOsItens")
+	@RequestWrapper(localName = "listaItens")
+	@ResponseWrapper(localName = "itens")
 	@WebResult(name = "item")
 	public List<Item> getItens() {
 		System.out.println("Chamando getItens()");
 		ArrayList<Item> itensResultado = dao.todosItens();
 		return itensResultado;
 	}
-	
-//	@WebMethod(operationName = "todosOsItens")
-//	@ResponseWrapper(localName="itens")
-//	@WebResult(name = "itens")
-//	public List<Item> getItensFiltrados(@WebParam(name="filtros") Filtros filtros) {
-//		System.out.println("Chamando getItens()");
-//		List<Filtro> listaDeFiltros = filtros.getLista();
-//		ArrayList<Item> itensResultado = dao.todosItens(listaDeFiltros);
-//		return itensResultado;
-//	}
-	
-	@WebMethod(exclude=true)
-    public void outroMetodo() { 
-        //nao vai fazer parte do WSDL
-    }
+
+	// @WebMethod(operationName = "todosOsItens")
+	// @ResponseWrapper(localName="itens")
+	// @WebResult(name = "itens")
+	// public List<Item> getItensFiltrados(@WebParam(name="filtros") Filtros
+	// filtros) {
+	// System.out.println("Chamando getItens()");
+	// List<Filtro> listaDeFiltros = filtros.getLista();
+	// ArrayList<Item> itensResultado = dao.todosItens(listaDeFiltros);
+	// return itensResultado;
+	// }
+
+	@WebMethod(operationName = "CadastrarItem")
+	@WebResult(name = "item")
+	public Item cadastrarItem(@WebParam(name = "tokenUsuario", header = true) TokenUsuario tokenUsuario,
+			@WebParam(name = "item") Item item) throws AutorizacaoException {
+		
+		System.out.println("Token " + tokenUsuario);
+		System.out.println("Cadastrando item " + item);
+		
+		boolean valido = new TokenDao().ehValido(tokenUsuario);
+		
+		if(!valido) {
+			throw new AutorizacaoException("Autorização falhou");
+		}
+		
+		new ItemValidador(item).validate();
+		
+		this.dao.cadastrar(item);
+		return item;
+	}
+
+	@WebMethod(exclude = true)
+	public void outroMetodo() {
+		// nao vai fazer parte do WSDL
+	}
 
 }
