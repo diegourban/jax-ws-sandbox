@@ -1,0 +1,3 @@
+Generate WSDL:
+
+wsgen -wsdl -inlineSchemas -cp target/classes br.com.urban.sandbox.jax_ws_sandbox.ws.EstoqueWS
