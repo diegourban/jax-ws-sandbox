@@ -7,12 +7,13 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.ParameterStyle;
+import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import br.com.urban.sandbox.jax_ws_sandbox.exception.AutorizacaoException;
-import br.com.urban.sandbox.jax_ws_sandbox.model.item.Filtro;
-import br.com.urban.sandbox.jax_ws_sandbox.model.item.Filtros;
 import br.com.urban.sandbox.jax_ws_sandbox.model.item.Item;
 import br.com.urban.sandbox.jax_ws_sandbox.model.item.ItemDao;
 import br.com.urban.sandbox.jax_ws_sandbox.model.item.ItemValidador;
@@ -20,6 +21,7 @@ import br.com.urban.sandbox.jax_ws_sandbox.model.usuario.TokenDao;
 import br.com.urban.sandbox.jax_ws_sandbox.model.usuario.TokenUsuario;
 
 @WebService
+@SOAPBinding(style=Style.DOCUMENT, parameterStyle=ParameterStyle.BARE)
 public class EstoqueWS {
 
 	private ItemDao dao = new ItemDao();
@@ -45,7 +47,7 @@ public class EstoqueWS {
 	// return itensResultado;
 	// }
 
-	@WebMethod(operationName = "CadastrarItem")
+	@WebMethod(action="CadastrarItem", operationName = "CadastrarItem")
 	@WebResult(name = "item")
 	public Item cadastrarItem(@WebParam(name = "tokenUsuario", header = true) TokenUsuario tokenUsuario,
 			@WebParam(name = "item") Item item) throws AutorizacaoException {
