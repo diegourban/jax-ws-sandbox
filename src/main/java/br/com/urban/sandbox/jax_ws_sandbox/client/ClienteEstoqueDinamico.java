@@ -16,7 +16,7 @@ public class ClienteEstoqueDinamico {
 	public static void main(String[] args) throws Exception {
 
         URL url = new URL("http://localhost:8080/estoquews?wsdl");
-        QName qname = new QName("http://ws.estoque.caelum.com.br/", "EstoqueWSService");
+        QName qname = new QName("http://ws.jax_ws_sandbox.sandbox.urban.com.br/", "EstoqueWSService");
 
         Service service = Service.create(url, qname);
 

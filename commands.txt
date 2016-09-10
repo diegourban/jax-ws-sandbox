@@ -3,9 +3,9 @@ wsgen -wsdl -inlineSchemas -cp target/classes br.com.urban.sandbox.jax_ws_sandbo
 
 
 Generate Classes with CXF wsdl2java:
-wsconsume.bat -k -n -o C:\workspace\estoque-web\src C:\workspace\estoque-web\src\EstoqueWSServiceCap5.wsdl
-wsconsume is a wsdl2java wrapper embedded in Wildfly
+wsconsume.bat -k -n -o estoque-web\src src\EstoqueWSService.wsdl
+wsconsume is a wsdl2java wrapper embedded in Wildfly located at /bin
 
 
 Generate Classes with Metro wsimport:
-wsimport -s src -p br.com.caelum.estoque.cliente    http://localhost:8080/estoque/EstoqueWS?wsdl
+wsimport -s src -p br.com.urban.estoque.cliente    http://localhost:8080/estoque/EstoqueWS?wsdl

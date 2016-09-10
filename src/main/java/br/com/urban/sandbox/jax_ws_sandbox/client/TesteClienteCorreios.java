@@ -14,9 +14,8 @@ public class TesteClienteCorreios {
 		CalcPrecoPrazoWSSoap cliente = new CalcPrecoPrazoWS().getCalcPrecoPrazoWSSoap();
 
 		String codigoSedex = "40010";
-		String cepOrigemCaelumSP = "04101300"; // Caelum SP
-
-		String cepDestinoCaelumRJ = "20040030"; // Caelum RJ
+		String cepOrigem = "89074230";
+		String cepDestino = "20040030";
 		String peso3kg = "3";
 		BigDecimal comprimento20cm = new BigDecimal(20);
 		BigDecimal altura10cm = new BigDecimal(10);
@@ -30,15 +29,15 @@ public class TesteClienteCorreios {
 		String semSenhaEmpresa = "";
 
 		// chamando o serviço
-		CResultado resultado = cliente.calcPrecoPrazo(semCodigoEmpresa, semSenhaEmpresa, codigoSedex, cepOrigemCaelumSP,
-				cepDestinoCaelumRJ, peso3kg, formatoEncomendaCaixa, comprimento20cm, altura10cm, largura15cm,
+		CResultado resultado = cliente.calcPrecoPrazo(semCodigoEmpresa, semSenhaEmpresa, codigoSedex, cepOrigem,
+				cepDestino, peso3kg, formatoEncomendaCaixa, comprimento20cm, altura10cm, largura15cm,
 				diametro10cm, semEntregueEmMaos, semValorDeclarado, semAvisoRecebimento);
 
 		// recuperando o valor
 		List<CServico> servicosPesquisados = resultado.getServicos().getCServico();
 		String valorFrete = servicosPesquisados.get(0).getValor();
 
-		System.out.printf("Frete para %s eh de %s %n", cepDestinoCaelumRJ, valorFrete);
+		System.out.printf("Frete para %s eh de %s %n", cepDestino, valorFrete);
 	}
 
 }
