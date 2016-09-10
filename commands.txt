@@ -1,3 +1,8 @@
 Generate WSDL:
-
 wsgen -wsdl -inlineSchemas -cp target/classes br.com.urban.sandbox.jax_ws_sandbox.ws.EstoqueWS
+
+
+Generate Classes with wsdl:
+wsconsume.bat -k -n -o C:\workspace\estoque-web\src C:\workspace\estoque-web\src\EstoqueWSServiceCap5.wsdl
+
+wsconsume is a wsdl2java wrapper embedded in Wildfly
